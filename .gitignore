@@ -1,4 +1,4 @@
-# ESP-IDF — artefatos gerados (não versionar)
+# ESP-IDF — artefatos gerados (nao versionar)
 build/
 sdkconfig
 sdkconfig.old
