@@ -21,12 +21,16 @@ QueueHandle_t fila_velocidade;
 int velocidades[] = { 500, 250, 100, 1000 };
 int idx = 0;
 
+
 // ISR do botao: sinaliza
 void IRAM_ATTR botao_isr(void *arg) {
     BaseType_t acordou = pdFALSE;
     xSemaphoreGiveFromISR(sem_botao, &acordou);
-    if (acordou) portYIELD_FROM_ISR();
+    if (acordou) portYIELD_FROM_ISR(); //Se o "acordou" esta em HIGH ele passa a vez da task 
+                                       //que estava em execução antes da ISR para a de maior
+                                       //prioridade
 }
+
 
 // TASK 1: trata o botao, escolhe a proxima velocidade e MANDA pela fila
 void task_botao(void *p) {
@@ -36,6 +40,9 @@ void task_botao(void *p) {
         int nova = velocidades[idx];
         printf("botao! nova velocidade: %d ms\n", nova);
         xQueueSend(fila_velocidade, &nova, 0);      // avisa a task do LED
+        /*
+            A task tratou de enviar uma variavel simple e não um vetor pela fila
+        */
     }
 }
 

@@ -10,6 +10,10 @@
 #define LED 2
 
 QueueHandle_t fila;   // o "cano" entre as duas tasks
+/*
+    Qual o tipo de dado que o QueueHandle_t pode passar?
+
+*/
 
 // PRODUTOR — manda um numero (1..4) a cada 2 s
 void task_produtor(void *p) {
@@ -40,6 +44,12 @@ void task_consumidor(void *p) {
 
 void app_main(void) {
     fila = xQueueCreate(5, sizeof(int));  // ate 5 inteiros guardados
+    /*
+        qualuqer tipo pode ser passado em uma fila, claro ela tem que ser 
+        criada na função de criação e informada o tipo que vai passar e quanto vai passar,
+        quantos itens vai passar na fila. Na verdade, não é o tipo que informamos a fila
+        e sim o tamanho do tipo que ela vai carregar, ela trabalha com bytes. 
+    */
     xTaskCreate(task_produtor,   "prod", 2048, NULL, 5, NULL);
     xTaskCreate(task_consumidor, "cons", 2048, NULL, 5, NULL);
 }

@@ -13,6 +13,10 @@
 #define BOTAO 4
 
 SemaphoreHandle_t sem_botao;
+/*
+    Semaphore tem um grau muito baixo de gasto de cpu por ser uma task que 
+    fica meio que dormindo até que um sinal do hardwae seja dado
+*/
 
 // A ISR: roda quando o botao e apertado. Curtissima — so sinaliza.
 void IRAM_ATTR botao_isr(void *arg) {

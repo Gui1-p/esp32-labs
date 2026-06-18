@@ -23,10 +23,15 @@ void app_main(void) {
 
     TimerHandle_t timer = xTimerCreate(
         "heartbeat",           // nome (debug)
-        pdMS_TO_TICKS(500),    // vence a cada 500 ms
-        pdTRUE,                // auto-reload: repete pra sempre
+        pdMS_TO_TICKS(20000),    // vence a cada 500 ms
+        pdFALSE,                // auto-reload: repete pra sempre
         NULL,                  // id (nao usamos)
         heartbeat_cb);         // funcao chamada quando vence
 
     xTimerStart(timer, 0);     // arma o timer
+
+    /*
+        poderia ser usado um botão para sinalizar o inicio do timer
+        e nesse botão o melhor caminho seria usar um semaphore
+    */
 }

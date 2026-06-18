@@ -9,6 +9,11 @@
 #include "freertos/semphr.h"
 #include <stdio.h>
 
+/*
+    Mutex herda a prioridade, se uma task com prio maior estiver livre a task atual
+    de prio menor termina e passa o recurso e a cpu para a de prio maior
+*/
+
 SemaphoreHandle_t mutex_serial;
 
 void imprime_linha(const char *quem) {
@@ -22,9 +27,11 @@ void imprime_linha(const char *quem) {
 
 void task_A(void *p) { while(1){ imprime_linha("AAAA"); vTaskDelay(pdMS_TO_TICKS(50)); } }
 void task_B(void *p) { while(1){ imprime_linha("bbbb"); vTaskDelay(pdMS_TO_TICKS(50)); } }
+void task_C(void *p) { while(1){ imprime_linha("CCCC"); vTaskDelay(pdMS_TO_TICKS(50)); } }
 
 void app_main(void) {
     mutex_serial = xSemaphoreCreateMutex();
     xTaskCreate(task_A, "A", 2048, NULL, 5, NULL);
     xTaskCreate(task_B, "B", 2048, NULL, 5, NULL);
+    xTaskCreate(task_C, "C", 2048, NULL, 5, NULL);
 }

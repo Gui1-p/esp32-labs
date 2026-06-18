@@ -1,6 +1,6 @@
 // Lab 02 — Duas coisas ao mesmo tempo
 // Uma task pisca o LED; outra imprime um batimento no serial, em ritmos
-// diferentes. O momento "aha" do RTOS: concorrencia.
+// diferentes. RTOS: concorrencia.
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/gpio.h"
@@ -9,13 +9,21 @@
 #define LED 2
 
 // TASK 1 — pisca o LED a cada 500 ms
+/*
+    Oque é o void *param?
+    É possivel usar esse parametro na task se eu quero usar a mesma função 
+    para tasks diferentes, mas semelhantes, que usem um parametro que seja diferente
+    uma da outra.
+    A forma de passar esse parâmetro é pelo ARG da função de criação de task.
+    É preciso fazer o casting para transformar o void * no tipo desejado 
+*/
 void task_led(void *param)
 {
-    gpio_reset_pin(LED);
-    gpio_set_direction(LED, GPIO_MODE_OUTPUT);
+    gpio_reset_pin(LED); //limpa qualquer função atrelada ao pino anteriormente
+    gpio_set_direction(LED, GPIO_MODE_OUTPUT); //seta o modo do pino (input ou output)
     while (1) {
-        gpio_set_level(LED, 1);
-        vTaskDelay(pdMS_TO_TICKS(500));
+        gpio_set_level(LED, 1); //seta a saida do pino
+        vTaskDelay(pdMS_TO_TICKS(500));//delay na task
         gpio_set_level(LED, 0);
         vTaskDelay(pdMS_TO_TICKS(500));
     }
