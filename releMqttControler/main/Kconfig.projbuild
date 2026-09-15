@@ -1,0 +1,24 @@
+menu "Configuracao do projeto"
+
+    config WIFI_SSID
+        string "Nome da rede Wi-Fi (SSID)"
+        default "minha_rede"
+        help
+            Rede 2.4 GHz. O ESP32-C3 nao enxerga 5 GHz.
+
+    config WIFI_PASSWORD
+        string "Senha do Wi-Fi"
+        default "minha_senha"
+
+    config WIFI_MAX_RETRY
+        int "Numero de tentativas de reconexao"
+        default 5
+
+    config LED_GPIO
+        int "GPIO do LED"
+        default 4
+        help
+            Evite GPIO 2, 8 e 9 no ESP32-C3 (strapping pins).
+            Seguros para saida simples: 3, 4, 5, 6, 7, 10.
+
+endmenu
